@@ -5,18 +5,20 @@ import pygame as pg
 
 WIDTH = 1600
 HIGHT = 900
-txt_t=[]
 txt_origin = ["攻撃","防御","魔法","回復","調教","逃走"]
+HP = 50
+MP = 10
+ENE_HP = 10
 
 class Button:
-    def __init__(self, x, y, width, height, color, hover_color, text, text_color, action):
+    def __init__(self, x, y, width, height, color, hover_color, text, text_color, action, num):
         self.rect = pg.Rect(x, y, width, height)
         self.color = color
         self.hover_color = hover_color
         self.text = text
         self.text_color = text_color
         self.action = action
-
+        self.num = num
 
     def draw(self,scr):
         pg.draw.rect(scr, self.color, self.rect)
@@ -25,10 +27,10 @@ class Button:
         text_rect = text_surface.get_rect(center=self.rect.center)
         scr.blit(text_surface, text_rect)
 
-    def handle_event(self, event,i):
+    def handle_event(self, event):
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
-                self.action(i)
+                self.action(self.num)
     
         
 def action(i):
@@ -49,13 +51,16 @@ def main():
     win = pg.transform.scale(win,(WIDTH/4,HIGHT/2))
     win2 = pg.transform.scale(win,(WIDTH-100,HIGHT/4))
     font1 = pg.font.SysFont("hg正楷書体pro", 100)
+    font2 = pg.font.SysFont("hg正楷書体pro", 50)
     text = "野生のスライムが現れた"
     txt = []
+    text_surface1 = font2.render(f"HP:{HP} MP:{MP}", True, (255,255,255))
+    text_surface2 = font2.render(f"HP:{ENE_HP}", True, (255,255,255))
     for i,tx in enumerate(txt_origin):
         if i%2==0:
-            button = Button(125, 500+(i//2)*100, 100, 50, (100,100,100), (0,0,0), tx, (255,255,255), action)
+            button = Button(125, 500+(i//2)*100, 100, 50, (50,50,50), (0,0,0), tx, (255,255,255), action, i)
         else:
-            button = Button(275, 500+(i//2)*100, 100, 50, (100,100,100), (0,0,0), tx, (255,255,255), action)
+            button = Button(275, 500+(i//2)*100, 100, 50, (50,50,50), (0,0,0), tx, (255,255,255), action, i)
         txt.append(button)
         
     while True:
@@ -76,6 +81,8 @@ def main():
             x += text_width
         for i in txt:
             i.draw(screen)
+        screen.blit(text_surface1,[100,350])
+        screen.blit(text_surface2,[WIDTH/2-ene_rct.width/2+225,HIGHT/2-50])
         pg.display.update()
         clock.tick(100)
 
