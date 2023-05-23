@@ -1,8 +1,6 @@
 import math
 import random
 import sys
-import time
-from PIL import Image
 import pygame as pg
 
 WIDTH = 1600
@@ -27,15 +25,15 @@ class Button:
         text_rect = text_surface.get_rect(center=self.rect.center)
         scr.blit(text_surface, text_rect)
 
-    def handle_event(self, event):
+    def handle_event(self, event,i):
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
-                self.action()
+                self.action(i)
     
         
-def action():
+def action(i):
     p = ["攻撃","防御","魔法","回復","調教","逃走"]
-    print(p)
+    print(p[i])
         
 def main():
     global WIDTH,HIGHT,txt_t,txt_origin
