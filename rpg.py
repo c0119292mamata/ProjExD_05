@@ -28,7 +28,7 @@ class Text:
         scr.blit(text_surface, text_rect)
         
 class Button:
-    def __init__(self, x, y, width, height, color, hover_color, text, text_color, action, num, text2,hp_mp):
+    def __init__(self, x, y, width, height, color, hover_color, text, text_color, action, num, text2, hp_mp):
         self.rect = pg.Rect(x, y, width, height)
         self.color = color
         self.hover_color = hover_color
@@ -49,8 +49,7 @@ class Button:
     def handle_event(self, event):
         if event.type == pg.MOUSEBUTTONDOWN and event.button == 1:
             if self.rect.collidepoint(event.pos):
-                self.action(self.num,self.text2, 
-                            self.hp_mp)
+                self.action(self.num, self.text2, self.hp_mp)
                 
 class HP_MP:
     def __init__(self,turn):
