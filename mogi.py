@@ -15,7 +15,7 @@ MJC = 20
 DEF = 10
 TAM = 5
 TAME_POINT = 20
-ENE_ATK = 20
+ENE_ATK = 10
 
 class Text:
     def __init__(self,syo):
@@ -79,7 +79,7 @@ def action(i,text:Text, hp_mp:HP_MP):
     ene_hp = int(hp_mp.e_hp)
     if hp_mp.turn==1:    
         if txt_origin[i]=="攻撃":
-            text.text = f"{ATK}与えた"
+            text.text = f"{ATK}ダメージ与えた"
             ene_hp -= ATK
             hp_mp.ENE(ene_hp)
             hp_mp.turn = 0
@@ -88,7 +88,7 @@ def action(i,text:Text, hp_mp:HP_MP):
             hp_mp.turn = 0
         if txt_origin[i]=="魔法":
             if mp>0:
-                text.text = f"{MJC}与えた"
+                text.text = f"{MJC}ダメージ与えた"
                 ene_hp -= MJC
                 mp-=1
                 hp_mp.turn = 0
@@ -115,6 +115,7 @@ def action(i,text:Text, hp_mp:HP_MP):
                 text.text = "体力が満タンです"
     if hp_mp.turn==0:
         hp_mp.PL_action = txt_origin[i]
+
 
 
 def ENE_action(PL_action,hp_mp:HP_MP,text:Text):
@@ -168,9 +169,6 @@ def main():
             if event.type == pg.QUIT: return
             for button in txt:
                 button.handle_event(event)
-        if text_surface.turn==0:
-            PL_action=text_surface.PL_action
-            ENE_action(PL_action,text_surface,text)
         screen.blit(bg_img,[0,0])
         screen.blit(ene_img,[WIDTH/2-ene_rct.width/2+100,HIGHT/2])
         screen.blit(win,[50,400])
@@ -181,6 +179,16 @@ def main():
         screen.blit(text_surface.pl_hp, [100,350])
         screen.blit(text_surface.ene_hp, [WIDTH/2-ene_rct.width/2+225,HIGHT/2-50])
         pg.display.update()
+        if text_surface.turn==0:
+            time.sleep(1)
+            text.text="相手の攻撃"
+            screen.blit(win2,[50,50])
+            text.draw(screen, (255,255,255), WIDTH/2,150)
+            pg.display.update()
+            time.sleep(1)
+            PL_action=text_surface.PL_action
+            ENE_action(PL_action,text_surface,text)
+
         clock.tick(100)
 
 if __name__ == "__main__":
